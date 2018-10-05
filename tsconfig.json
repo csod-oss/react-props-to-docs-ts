@@ -9,6 +9,7 @@
    "jsx": "react",
    "allowSyntheticDefaultImports": true,
    "moduleResolution": "node",
-   "inlineSourceMap": true
+   "inlineSourceMap": true,
+   "declaration": true
  }
 }
