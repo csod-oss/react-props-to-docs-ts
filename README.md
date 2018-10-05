@@ -1,4 +1,5 @@
-# npm install @csod-oss/react-props-to-docs-ts --save-dev
+# react-props-to-docs-ts
+`npm install @csod-oss/react-props-to-docs-ts --save-dev`
 
 Parse out documentation from the typescript interface that defines a React component's props.
 
@@ -7,7 +8,7 @@ Parse out documentation from the typescript interface that defines a React compo
 import { propsParser } from '@csod-oss/react-props-to-docs-ts';
 const docs = docsParser($packageName, component);
 
-``
+```
 
 1. Find declaration file (*.d.ts) based on component name
     - accept declaration filename paramater in options
