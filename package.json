@@ -1,0 +1,26 @@
+{
+  "name": "@csod-oss/react-props-to-docs-ts",
+  "version": "0.0.1",
+  "description": "",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "tsc -p ./",
+    "start": "ts-node --require ./node-setup.js ./src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/node": "^10.11.3",
+    "ts-node": "^7.0.1"
+  },
+  "dependencies": {
+    "decamelize": "^2.0.0",
+    "ts-simple-ast": "^16.0.1"
+  },
+  "files": [
+    "build"
+  ]
+}

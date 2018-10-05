@@ -1,0 +1,14 @@
+{
+ "compilerOptions": {
+   "rootDir": "src",
+   "outDir": "./build",
+   "allowJs": false,
+   "module": "commonjs",
+   "target": "es6",
+   "lib": ["es6", "dom"],
+   "jsx": "react",
+   "allowSyntheticDefaultImports": true,
+   "moduleResolution": "node",
+   "inlineSourceMap": true
+ }
+}
