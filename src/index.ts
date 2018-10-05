@@ -1,5 +1,5 @@
 import Project from 'ts-simple-ast';
-import { resolveDeclarationPath, requireComponent } from './resolve-declaration';
+import { resolveDeclarationPath } from './resolve-declaration';
 import { getComponent } from './parser-utils';
 
 export interface PropDoc {
@@ -14,12 +14,10 @@ export interface PropDocs {
 }
 
 // todo: refactor, move out parser specific logic, provide error messages
-export function propsParser(pkg: string): PropDocs {
-  let declarationFile, component, componentName;
+export function propsParser(pkg: string, component: React.ComponentType): PropDocs {
+  let declarationFile;
   try {
     declarationFile = resolveDeclarationPath(pkg);
-    component = requireComponent(pkg);
-    componentName = component.name;
   }
   catch (e) {
     return null;
@@ -28,7 +26,7 @@ export function propsParser(pkg: string): PropDocs {
     addFilesFromTsConfig: false
   });
   const sourceFile = project.addExistingSourceFile(declarationFile);
-  const componentType = getComponent(sourceFile, componentName);
+  const componentType = getComponent(sourceFile, component.name);
   const [componentTypeDocs] = componentType.getJsDocs();
   if (!componentTypeDocs) return null;
   const propTag = componentTypeDocs.getTags().find(tag => tag.getName() === 'see');
