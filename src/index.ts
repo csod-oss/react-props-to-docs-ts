@@ -4,7 +4,7 @@ import { getComponent } from './parser-utils';
 
 export interface PropDoc {
   required: boolean;
-  defaultValue: any;
+  defaultValue?: any;
   typeText: any;
   description: string;
 }
@@ -14,7 +14,7 @@ export interface PropDocs {
 }
 
 // todo: refactor, move out parser specific logic, provide error messages
-export function propsParser(pkg: string, component: React.ComponentType): PropDocs {
+export function propsParser(pkg: string, componentName: string): PropDocs {
   let declarationFile;
   try {
     declarationFile = resolveDeclarationPath(pkg);
@@ -26,7 +26,7 @@ export function propsParser(pkg: string, component: React.ComponentType): PropDo
     addFilesFromTsConfig: false
   });
   const sourceFile = project.addExistingSourceFile(declarationFile);
-  const componentType = getComponent(sourceFile, component.name);
+  const componentType = getComponent(sourceFile, componentName);
   const [componentTypeDocs] = componentType.getJsDocs();
   if (!componentTypeDocs) return null;
   const propTag = componentTypeDocs.getTags().find(tag => tag.getName() === 'see');
@@ -35,7 +35,6 @@ export function propsParser(pkg: string, component: React.ComponentType): PropDo
   const propsInterface = sourceFile.getInterface(propsInterfaceName);
   if (!propsInterface) return null;
   const propsInterfaceProperties = propsInterface.getProperties();
-  const { defaultProps = {} } = component;
   return propsInterfaceProperties.reduce((acc, prop) => {
     const propName = prop.getName();
     const required = !prop.getQuestionTokenNode();
@@ -44,10 +43,18 @@ export function propsParser(pkg: string, component: React.ComponentType): PropDo
       ...acc,
       [propName]: {
         required,
-        defaultValue: defaultProps[propName],
         typeText: prop.getTypeNode().getFullText().trim(),
         description: propDoc ? propDoc.getComment().trim() : ''
       }
     };
   }, {});
+}
+
+export function addDefaultValuesToPropDoc(propDoc: PropDoc, component: React.ComponentType) {
+  if(!component || !propDoc) return propDoc;
+  const { defaultProps = {} } = component;
+  Object.keys(propDoc).forEach(propName => {
+    propDoc[propName].defaultValue = defaultProps[propName];
+  });
+  return propDoc;
 }
