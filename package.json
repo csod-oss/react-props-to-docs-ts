@@ -20,5 +20,8 @@
   },
   "files": [
     "build"
-  ]
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }
