@@ -1,22 +1,12 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import * as decamelize from 'decamelize';
 
-const hyphenize = (name: string): string => decamelize(name);
+export const requireComponent = (pkg: string) => require(pkg);
 
-const possibleDeclarationFilenames = (packagePath: string, componentName: string) => {
-  return [ ...new Set([
-    componentName,
-    componentName.toLowerCase(),
-    hyphenize(componentName)
-  ])].map(name => path.join(packagePath, `${name}.d.ts`));
+export const resolveDeclarationPath = (pkg: string) => {
+  const packagePath = require.resolve(pkg);
+  const moduleName = path.basename(packagePath, '.js'), packageDir = path.dirname(packagePath);
+  const declarationPath = path.join(packageDir, `${moduleName}.d.ts`);
+  fs.accessSync(declarationPath);
+  return declarationPath;
 };
-
-export const resolveDeclarationPath = (pkg: string, componentName: string) => {
-  const packagePath = path.dirname(require.resolve(pkg));
-  const filenames = possibleDeclarationFilenames(packagePath, componentName);
-  return filenames.find(fs.existsSync);
-};
-
-export const getComponentName = (component: InstanceType<any>) => component.name;
-
