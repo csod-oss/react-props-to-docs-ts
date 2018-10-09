@@ -49,18 +49,3 @@ export function propsParser(pkg: string, componentName: string): PropDocs {
     };
   }, {});
 }
-
-function humanizeDefaultValue(val) {
-  if(!val || Array.isArray(val)) return val;
-  if(typeof val === 'object') return 'Object';
-  return val;
-}
-
-export function addDefaultValuesToPropDoc(propDoc: PropDoc, component: React.ComponentType) {
-  if(!component || !propDoc) return propDoc;
-  const { defaultProps = {} } = component;
-  Object.keys(propDoc).forEach(propName => {
-    propDoc[propName].defaultValue = humanizeDefaultValue(defaultProps[propName]);
-  });
-  return propDoc;
-}

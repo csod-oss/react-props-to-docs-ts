@@ -1,21 +1,37 @@
 import * as React from 'react';
-import { PropDoc, addDefaultValuesToPropDoc } from './props-parser';
-
+import { PropDoc } from './props-parser';
 const Table = 'table', Thead = 'thead', Tr = 'tr', Th = 'th', Tbody = 'tbody', Td = 'td';
+
+function humanizeDefaultValue(val) {
+  if(!val || Array.isArray(val)) return val;
+  if(typeof val === 'object') return 'Object';
+  return val;
+}
+
+function addDefaultValuesToPropDoc(propDoc: PropDoc, component: React.ComponentType) {
+  if(!component || !propDoc) return propDoc;
+  const { defaultProps = {} } = component;
+  Object.keys(propDoc).forEach(propName => {
+    if(defaultProps[propName] && !propDoc[propName].defaultValue) {
+      propDoc[propName].defaultValue = humanizeDefaultValue(defaultProps[propName]);
+    }
+  });
+  return propDoc;
+}
 
 const PropsTable: React.SFC<{docs: PropDoc, component: React.ComponentType}> = ({docs, component}) => {
   if(!docs || !component) return null;
   docs = addDefaultValuesToPropDoc(docs, component);
   return (
     <React.Fragment>
-      <Table className="p-table table-layout-auto p-table-striped">
+      <Table>
         <Thead>
           <Tr>
-            <Th className="PropsTable--property">Property</Th>
-            <Th className="PropsTable--type">Type</Th>
-            <Th className="PropsTable--required">Required</Th>
-            <Th className="PropsTable--default">Default</Th>
-            <Th className="PropsTable--description">Description</Th>
+            <Th>Property</Th>
+            <Th>Type</Th>
+            <Th>Required</Th>
+            <Th>Default</Th>
+            <Th>Description</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -24,11 +40,11 @@ const PropsTable: React.SFC<{docs: PropDoc, component: React.ComponentType}> = (
               const {defaultValue, description, required, typeText} = docs[docKey];
               return (
                 <Tr key={docKey}>
-                  <Td>{docKey}</Td>
-                  <Td>{typeText}</Td>
-                  <Td>{String(required)}</Td>
-                  <Td>{`${defaultValue}`}</Td>
-                  <Td>{description}</Td>
+                  <Td data-label="Prop">{docKey}</Td>
+                  <Td data-label="Type">{typeText}</Td>
+                  <Td data-label="Required">{String(required)}</Td>
+                  <Td data-label="Default">{`${defaultValue}`}</Td>
+                  <Td data-label="Description">{description}</Td>
                 </Tr>
               )
             })}

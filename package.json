@@ -1,11 +1,11 @@
 {
   "name": "@csod-oss/react-props-to-docs-ts",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "",
   "main": "build/index.js",
   "scripts": {
     "build": "tsc -p ./",
-    "start": "ts-node --require ./node-setup.js ./src/index.ts",
+    "start": "npm run build && parcel sample.html",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,7 +14,7 @@
   "devDependencies": {
     "@types/node": "^10.11.3",
     "@types/react": "^16.4.15",
-    "ts-node": "^7.0.1"
+    "parcel-bundler": "^1.10.2"
   },
   "dependencies": {
     "react": "^16.5.2",
@@ -22,7 +22,8 @@
     "ts-simple-ast": "^16.0.1"
   },
   "files": [
-    "build"
+    "build",
+    "*.{css,html,js}"
   ],
   "publishConfig": {
     "access": "public",
