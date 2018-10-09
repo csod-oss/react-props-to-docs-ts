@@ -43,7 +43,7 @@ const PropsTable: React.SFC<{docs: PropDoc, component: React.ComponentType}> = (
                   <Td data-label="Prop">{docKey}</Td>
                   <Td data-label="Type">{typeText}</Td>
                   <Td data-label="Required">{String(required)}</Td>
-                  <Td data-label="Default">{`${defaultValue}`}</Td>
+                  <Td data-label="Default">{`${defaultValue === undefined ? '' : defaultValue}`}</Td>
                   <Td data-label="Description">{description}</Td>
                 </Tr>
               )

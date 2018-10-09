@@ -14,6 +14,11 @@ const docs = {
     required: false,
     description: 'use this prop to set the bar prop value on the component',
     defaultValue: 'barbarbar'
+  },
+  'baz': {
+    typeText: 'Function',
+    required: false,
+    description: 'use this prop to set the baz prop value on the component (no default)'
   }
 };
 
