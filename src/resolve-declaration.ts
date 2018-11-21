@@ -8,3 +8,7 @@ export const resolveDeclarationPath = (pkg: string) => {
   fs.accessSync(declarationPath);
   return declarationPath;
 };
+
+export const resolveDeclarationPath = (pkg: string) => {
+  const packagePath = require.resolve(pkg);
+};
