@@ -16,7 +16,9 @@ export interface PropDocs {
 const getPropsInterfaceProperties = (propsInterfaceNames: string[], sourceFile: SourceFile) => {
   return propsInterfaceNames.reduce((acc, interfaceName) => {
     const propsInterface = sourceFile.getInterface(interfaceName);
-    if(propsInterface) acc.push(propsInterface.getProperties());
+    if(propsInterface) {
+      acc.push(...propsInterface.getProperties());
+    }
     return acc;
   }, []);
 };

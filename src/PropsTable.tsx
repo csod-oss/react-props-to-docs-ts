@@ -36,7 +36,7 @@ const PropsTable: React.SFC<{docs: PropDoc, component: React.ComponentType}> = (
         </Thead>
         <Tbody>
           {docs &&
-            Object.keys(docs).map(docKey => {
+            Object.keys(docs).sort().map(docKey => {
               const {defaultValue, description, required, typeText} = docs[docKey];
               return (
                 <Tr key={docKey}>
