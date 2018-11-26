@@ -1,10 +1,10 @@
 import * as path from 'path';
 import * as fs from 'fs';
 
-export const checkPathOrThrow = filePath => fs.accessSync(filePath);
-
-export const resolveDeclarationPath = (pkg: string) => {
-  const packagePath = require.resolve(pkg);
+export const resolveDeclarationPath = (pkg: string, filePath: string) => {
+  const packagePath = require.resolve(path.join(pkg, filePath || ''));
   const moduleName = path.basename(packagePath, '.js'), modulePath = path.dirname(packagePath);
-  return path.join(modulePath, `${moduleName}.d.ts`);
+  const declarationPath = path.join(modulePath, `${moduleName}.d.ts`);
+  fs.accessSync(declarationPath);
+  return declarationPath;
 };

@@ -19,7 +19,6 @@
   "dependencies": {
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "signale": "^1.0.1",
     "ts-simple-ast": "^16.0.1"
   },
   "files": [

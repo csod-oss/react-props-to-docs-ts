@@ -1,7 +1,6 @@
 import Project, { SourceFile } from 'ts-simple-ast';
-import { checkPathOrThrow, resolveDeclarationPath } from './resolve-declaration';
+import { resolveDeclarationPath } from './resolve-declaration';
 import { getComponent } from './parser-utils';
-import signale from 'signale';
 
 export interface PropDoc {
   required: boolean;
@@ -40,12 +39,11 @@ const propsTransform = (propsInterfaceProperties) => {
 
 // todo: refactor, move out parser specific logic, provide error messages
 export function propsParser(pkg: string, componentName: string, controlPath?: string): PropDocs {
-  let declarationFilePath = controlPath || resolveDeclarationPath(pkg);
+  let declarationFilePath;
   try {
-    checkPathOrThrow(declarationFilePath);
+    declarationFilePath = resolveDeclarationPath(pkg, controlPath);
   }
   catch (e) {
-    signale.error(`Declaration file does not exist: ${declarationFilePath}`);
     return null;
   }
   const project = new Project({
